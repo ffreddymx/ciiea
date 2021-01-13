@@ -1,0 +1,39 @@
+
+.container-table{
+    width: 100%;
+    background-color: white;
+    margin: 5% auto;
+    
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 100px 100px 100px;
+    grid-auto-rows: 50px;
+}
+.table_title{
+      grid-column-start:1 ;
+      grid-column-end: 4;
+      
+      background: rgba(40,65,120,1);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+}
+.table_header, .table_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.table_header{
+ font-weight: bold;
+ font-size: 1em;
+}
+.table_item{
+  padding: 10px;
+  font-size: 1em;
+}
+.Button{
+    color: white;
+
+}
