@@ -35,13 +35,13 @@ $grupo = "SELECT * FROM grupo";
                     </div>
                 </div>
 
-<form class="form-inline">
-
+<form class="form-inline" action="nuevo_objeto.php" method="post">
+<input type="hidden" name="opc" value="16">
   <div class="form-group mx-sm-3 mb-2">
-    <input type="text" class="form-control" id="inputPassword2" placeholder="Nombre del Grupo">
+    <input type="text" class="form-control" id="inputPassword2" placeholder="Nombre del Grupo" name="grupo">
 
-                    <select  id="inputState" class="form-control">
-                            <option selected>Choose...</option>
+                    <select  id="inputState" class="form-control" name="turno">
+                            <option selected>Seleccionar...</option>
                             <option value="Matutino">Matutino</option>
                             <option value="Vespertino">Vespertino</option>
                             <option value="Nocturna">Nocturna</option>
@@ -52,12 +52,40 @@ $grupo = "SELECT * FROM grupo";
                     </form>               
                 </div>	
 
+
+
+<div class="collapse" id="BorrarGrupo" style="margin-bottom: 10px; margin-top: 10px;">
+  <div class="card card-body">
+  <form action="nuevo_objeto.php" method="post" >
+    <input type="hidden" name="opc" value="20">
+<div class="alert alert-danger" role="alert">
+  Confirme si desea eliminar el grupo? Los alumnos asignados al grupo se perderan.
+  <input type="hidden" name="ID" id="ID" class="form-control">
+</div>
+         <button id="BorrarGrupo" type="submit" class="btn btn-danger">Eliminar grupo</button>
+         <a   data-toggle="collapse" href="#BorrarGrupo" class="btn btn-success">Cancelar</a>
+  </form>
+  </div>
+</div>
+
     <?php
-        echo "<table class='table table-sm table-hover' >";//iniciamos la tabla
-        tablacuerpo::DTablalink1("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo",1,$conexion);
-         ?>
-        </tbody>
-    </table>
+$CantidadMostrar=7;
+                    // Validado de la variable GET
+    $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
+  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo");
+  //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
+  $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
+  //Consulta SQL
+  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo
+                LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+  $consulta=$conexion->query($consultavistas);
+
+    echo "<table id='foo' class='table table-sm table-hover'  >";//iniciamos la tabla
+    tablacuerpo::DTablalink1("$consultavistas ",1,$conexion);
+    echo " </tbody></table>";
+    require_once 'paginador.php';
+  ?>
+
             </div>
            <!-- /.container-fluid -->
 </div>
@@ -72,19 +100,20 @@ $grupo = "SELECT * FROM grupo";
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
+ <script>
 
-    <!-- Flot Charts JavaScript -->
-    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
-    <script src="js/plugins/flot/jquery.flot.js"></script>
-    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="js/plugins/flot/flot-data.js"></script>
-    <script src="js/Funciones.js"></script>
+
+      $(document).ready(function(){
+
+         $(document).on('click','a[data-role=BorrarGrupo]',function(){
+                var id  = $(this).data('id');
+                $('#ID').val(id);
+          });
+
+    });
+
+
+    </script>
     
 </body>
 </html>

@@ -2,6 +2,7 @@
 include 'capa.php';
 include("tablasUniver/cuerpo.php");
 
+$_SESSION["asistencia"] = $_GET["id"];
 
 $alumno = "SELECT * FROM alumno";
 ?>
@@ -21,7 +22,7 @@ $alumno = "SELECT * FROM alumno";
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                           Asistencias 
+                           Asistencias del Grupo
                         </h1>
                         <ol class="breadcrumb">
                             <li>
@@ -35,14 +36,6 @@ $alumno = "SELECT * FROM alumno";
                 </div>
             </div>
             <!-- /.container-fluid -->
-            <div class="form-group"></div>
-                <form action="" method="POST">
-                    <div class="imputgroup">
-                        <input type="text" class="form-control" placeholder="Nombre del Alumno" name="NombreA">
-                        <br><br>
-                        <button type="submit" name="crearlista" class="btn btn-primary btn-flat">Ingresar Alumno</button>
-                    </div>
-
 
     <?php
 
@@ -56,6 +49,9 @@ $alumno = "SELECT * FROM alumno";
          ?>
         </tbody>
     </table>
+
+
+
 
 
 

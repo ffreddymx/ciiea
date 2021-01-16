@@ -34,18 +34,28 @@ $grupo = "SELECT * FROM grupo";
                     </div>
                 </div>
 
-
-  <button type="submit" name="crear" class="btn btn-primary btn-flat">Crear Grupo</button>
-
-                
+             
                 </div>  
 
+
     <?php
-        echo "<table class='table table-sm table-hover' >";//iniciamos la tabla
-        tablacuerpo::DTablalink11("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo",1,$conexion);
-         ?>
-        </tbody>
-    </table>
+$CantidadMostrar=7;
+                    // Validado de la variable GET
+    $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
+  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo");
+  //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
+  $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
+  //Consulta SQL
+  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo
+                LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+  $consulta=$conexion->query($consultavistas);
+
+    echo "<table id='foo' class='table table-sm table-hover'  >";//iniciamos la tabla
+    tablacuerpo::DTablalink11("$consultavistas ",1,$conexion);
+    echo " </tbody></table>";
+    require_once 'paginador.php';
+  ?>
+
         </div>
         <!-- /#page-wrapper -->
 

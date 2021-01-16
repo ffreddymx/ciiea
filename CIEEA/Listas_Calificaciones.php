@@ -21,28 +21,19 @@ $alumno = "SELECT * FROM alumno";
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                           Calificaciones 
+                           Calificaciones del Grupo
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="Asistencias.php">Atras</a>
+                                <i class="fa fa-dashboard"></i>  <a href="Calificaciones.php">Atras</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-table"></i> Listas de Asistencias
+                                <i class="fa fa-table"></i> Listas de Calificaciones
                             </li>
                         </ol>
                     </div>
                 </div>
             </div>
-            <!-- /.container-fluid -->
-            <div class="form-group"></div>
-                <form action="" method="POST">
-                    <div class="imputgroup">
-                        <input type="text" class="form-control" placeholder="Nombre del Alumno" name="NombreA">
-                        <br><br>
-                        <button type="submit" name="crearlista" class="btn btn-primary btn-flat">Ingresar Alumno</button>
-                    </div>
-
 
     <?php
 

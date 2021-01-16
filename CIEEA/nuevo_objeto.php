@@ -8,24 +8,19 @@ switch ($_POST["opc"]) {
 
 	case '1': #insertar el alumno
 	$salvarE = new Aprende();
-    $valor = $_POST["idgrupo"];
-	$salvarE->insertAlumno($_POST["nombre"],$_POST["apellido"],$_POST["tutor"],$_POST["direccion"],$_POST["matricula"]);
-	header("Location:agr_alumno.php");
+	$salvarE->insertAlumno($_POST["nombre"],$_POST["grupo"]);
+	header("Location:alumnos.php");
 	break;
 
 	case '2': #modificar el alumno
-    $id = $_POST["ID"];
+    $id = $_POST["idalumno"];
     $nombre = $_POST["nombre"];
-    $apellido = $_POST["apellido"];
-    $tutor = $_POST["tutor"];    
-    $direccion = $_POST["direccion"];
-    $profesor = $_POST["profesor"];
-    $matricula = $_POST["matricula"];
+    $grupo = $_POST["grupo"];
 
-    $result  = mysqli_query($conexion, "UPDATE alumnos SET Nombre='$nombre',Apellido='$apellido',Tutor='$tutor',Direccion='$direccion', Matricula='$matricula' WHERE id='$id' ");
+    $result  = mysqli_query($conexion, "UPDATE alumno SET Nombre_Alumno='$nombre',Id_Grupo='$grupo' WHERE No_Alumno='$id' ");
     if($result){ echo 'data updated'; }
     mysqli_close($conexion);
-    header("Location:agr_alumno.php");
+    header("Location:alumnos.php");
 	break;
 
 	case '3': #agregar materias al alumno
@@ -34,12 +29,6 @@ switch ($_POST["opc"]) {
 	$salvarE->insertMateria($_POST["materia"],$_POST["alumno"]);
 	header("Location:materias.php?gr=$valor");
 	break;
-
-	// case '4': 
-	// $salvarE = new Aprende();
-	// $salvarE->delResultado($_POST["iduser"],$_POST["tabla"]);
-	// $salvarE->insertResultado($_POST["iduser"],$_POST["correctas"],$_POST["incorrectas"],$_POST["tabla"]);
-	// break;
 
 	case '5': #calificacion del alumno
     $valor = $_POST['alumno'];
@@ -70,22 +59,19 @@ switch ($_POST["opc"]) {
 
 	case '6': #agregar profesor
 	$salvarE = new Aprende();
-    $valor = $_POST["idgrupo"];
-	$salvarE->insertProfesor($_POST["nombre"],$_POST["apellido"],$_POST["direccion"],$_POST["movil"],$_POST["profesion"]);
-	header("Location:agr_profesor.php");
+	$salvarE->insertProfesor($_POST["nombre"],$_POST["correo"],$_POST["pass"]);
+	header("Location:maestro.php");
 	break;
 
 	case '7': #modificar profesor
-    $id = $_POST["ID"];
+    $id = $_POST["idprofesor"];
     $nombre = $_POST["nombre"];
-    $apellido = $_POST["apellido"];
-    $direccion = $_POST["direccion"];
-    $movil = $_POST["movil"];
-    $profesion = $_POST["profesion"];
+    $correo = $_POST["correo"];
+    $pass = $_POST["pass"];
 
-    $result  = mysqli_query($conexion, "UPDATE profesor SET Nombre='$nombre',Apellido='$apellido',Direccion='$direccion',Movil='$movil',Profesion='$profesion' WHERE id='$id' ");
+    $result  = mysqli_query($conexion, "UPDATE maestro SET Nombre='$nombre',Correo='$correo',Contraseña='$pass' WHERE Id_Maestro='$id' ");
     mysqli_close($conexion);
-    header("Location:agr_profesor.php");
+    header("Location:maestro.php");
 	break;
 
 	case '8': 
@@ -128,57 +114,75 @@ switch ($_POST["opc"]) {
 
 
 	case '13':
-
     $idalu = $_POST["alumno"];
-
 	$salvarE = new Aprende();
 	$salvarE->insertAsistencia($_POST["alumno"],$_POST["fecha"],$_POST["asistio"],$_POST["justifi"]);
 	header("Location:lasasistencias.php?gr=$idalu");
-
 	break;
 
 	case '14':
-	
-	$salvarE = new Aprende();
+		$salvarE = new Aprende();
 	$salvarE->insertEvento($_POST["title"],$_POST["start"],$_POST["end"],$_POST["color"]);
 	header("Location:calendario.php");
-
 	break;
 
-
-	case '15':
-	
-if (isset($_POST['delete']) && isset($_POST['id'])){
-	
-	
+	case '15':#Elimina el evento
+	if (isset($_POST['delete']) && isset($_POST['id'])){
+		
 	$id = $_POST['id'];
     $salvarE = new Aprende();
 	$salvarE->delEvento($_POST['id']);
-
 	
 }elseif (isset($_POST['title']) && isset($_POST['color']) && isset($_POST['id'])){
 	
 	$id = $_POST['id'];
 	$title = $_POST['title'];
 	$color = $_POST['color'];
-	
 	$sql = "UPDATE events SET  title = '$title', color = '$color' WHERE id = $id ";
-
 	$result  = mysqli_query($conexion, "UPDATE events SET  title = '$title', color = '$color' WHERE id = '$id'  ");
     mysqli_close($conexion);
 
 }
 header('Location: calendario.php');
+	break;
+	case '16':
+	$salvarE = new Aprende();
+	$salvarE->insertGrupo($_POST["grupo"],$_POST["turno"]);
+	header("Location:Asistencias.php");
 
+		break;
 
+	case '17':#Eliminar el alumno
+    $salvarE = new Aprende();
+	$salvarE->delAlumno($_POST['ID']);
+		header("Location:alumnos.php");
+	break;
+
+	case '18':#Eliminar el alumno
+    $salvarE = new Aprende();
+	$salvarE->delProfesor($_POST['ID']);
+		header("Location:maestro.php");
+	break;
+
+	case '19':#Eliminar el alumno
+	$alu = $_POST["IDalu"];
+    $salvarE = new Aprende();
+	$salvarE->delAsistencia($_POST['ID']);
+		header("Location:lasasistencias.php?gr=$alu");
+	break;
+
+	case '20':#Eliminar el alumno
+    $salvarE = new Aprende();
+	$salvarE->delGrupo($_POST['ID']);
+		header("Location:Asistencias.php");
 	break;
 
 	default:
 		# code...
 	break;
+
+
 }
-
-
 
 
 

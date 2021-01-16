@@ -27,6 +27,12 @@
                         <a href="inicio.php"><i class="fa fa-fw fa-dashboard"></i> Inicio</a>
                     </li>
                     <li >
+                        <a href="alumnos.php"><i class="fa fa-fw fa-bar-chart-o"></i> Alumnos</a>
+                    </li>
+                    <li>
+                        <a href="maestro.php"><i class="fa fa-fw fa-dashboard"></i>Maestro</a>
+                    </li>
+                    <li >
                         <a href="Asistencias.php"><i class="fa fa-fw fa-bar-chart-o"></i> Asistencias</a>
                     </li>
                     <li>

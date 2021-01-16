@@ -9,7 +9,13 @@ $view = new stdClass();
 $view->tabla2 =Aprende::getProfesor();
 $view->mates =Aprende::getMaterias();
 
+$view->alumno =Aprende::getelAlumno($idalu);
+foreach ($view->alumno as $cli) {
+$alumno = $cli["Nombre_Alumno"];
+echo $alumno;
+}
 
+$atras = $_SESSION["asistencia"];
 ?>
 
 <?php include 'header.php'?>
@@ -22,16 +28,29 @@ $view->mates =Aprende::getMaterias();
                 <!-- Page Heading -->
                 <div class="row">
 
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 class="page-header">
+                           Asistencias del Alumno:  <?php echo  $alumno ?>
+                        </h2>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="Listas_asistencias.php?id=<?php echo $atras?>  ">Atras</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-bar-chart-o"></i> Asistencias del Alumno::<?php echo  $alumno ?>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
 
-<p class="lead" style="margin-top: 0px" >Asistencias del alumno</p> <hr class="my-1" >
+
     <div  align="right" style="margin-bottom: 5px; margin-top: 0px;">
       <a  class="btn btn-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
      Agregar asistencia
    </a>
 
-  <a  class="btn btn-danger" href="calificacion_pdf.php?idalu=<?php echo $idalu  ?>" >
-     Imprimir
-   </a>
 
     </div>
 
@@ -159,15 +178,35 @@ $view->mates =Aprende::getMaterias();
           </div>
 
 
+<div class="collapse" id="BorrarAsis" style="margin-bottom: 10px; margin-top: 10px;">
+  <div class="card card-body">
+  <form action="nuevo_objeto.php" method="post" >
+    <input type="hidden" name="opc" value="19">
+<div class="alert alert-danger" role="alert">
+  Confirme si desea eliminar la asistencia ?
+  <input type="hidden" name="ID" id="ID" class="form-control">
+  <input type="hidden" name="IDalu" id="IDalu" value="<?php echo $idalu ?>" class="form-control">
+</div>
+         <button id="BorrarAsis" type="submit" class="btn btn-danger">Eliminar asistencia</button>
+         <a   data-toggle="collapse" href="#BorrarAsis" class="btn btn-success">Cancelar</a>
+  </form>
+  </div>
+</div>
 
 
             <?php
             echo "<table class='table table-sm table-hover'  >";//iniciamos la tabla
-            tablacuerpo::lasasistencia("SELECT * from asistencia ",1,$conexion);
+            tablacuerpo::lasasistencia("SELECT * from asistencia where idalumno = '$idalu'",1,$conexion);
              ?>
             </tbody>
             </table>
 
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
 
 
@@ -201,20 +240,11 @@ $view->mates =Aprende::getMaterias();
           });
 
 
-          $(document).on('click','a[data-role=calificar]',function(){
+          $(document).on('click','a[data-role=BorrarAsis]',function(){
                 var id  = $(this).data('id');
-                var idma  = $('#'+id).children('td[data-target=M]').text();
-                $('#IDxx').val(id);
-                $('#IDma').val(idma);
+                $('#ID').val(id);
           });
 
-
-          $(document).on('click','a[data-role=incidenciaxx]',function(){
-                var id  = $(this).data('id');
-                var idma  = $('#'+id).children('td[data-target=M]').text();
-                $('#IDxxx').val(id);
-                $('#IDmaa').val(idma);
-          });
 
     });
     </script>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-01-2021 a las 00:27:33
+-- Tiempo de generación: 16-01-2021 a las 22:00:44
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.29
 
@@ -61,8 +61,20 @@ CREATE TABLE `alumno` (
 --
 
 INSERT INTO `alumno` (`No_Alumno`, `Id_Grupo`, `Nombre_Alumno`) VALUES
-(1077016524, 892024469, 'Alec Edgardo Hernández Cornelio'),
-(1743575876, 892024469, 'Bernardo Edgardo Hernández Cornelio');
+(131803856, 911369402, ''),
+(1053770347, 1923549530, ''),
+(1077016524, 782383045, 'Alec Edgardo Hernández Cornelio'),
+(1339123371, 1098493376, ''),
+(1348909993, 449754371, ''),
+(1496525430, 1891825839, ''),
+(1743575876, 892024469, 'Bernardo Edgardo Hernández Cornelio'),
+(1743575877, 782383045, 'Efrain Ramirez Ascuaga'),
+(1786126150, 1323203744, ''),
+(1786126151, 782383045, 'Leonel Messi Andrade Guzman'),
+(1786126152, 782383045, 'Carlos Antonio Bustamante Correa'),
+(1786126154, 782383045, 'Angel de Jesus Correa Carrillo'),
+(1786126155, 782383045, 'Eusebio Mendez Castillo'),
+(1786126156, 782383045, 'Aristoteles Cardenas Gullen');
 
 -- --------------------------------------------------------
 
@@ -83,7 +95,9 @@ CREATE TABLE `asistencia` (
 --
 
 INSERT INTO `asistencia` (`id`, `idalumno`, `Tipo`, `Justificacion`, `Fecha`) VALUES
-(1, 1077016524, 'Asistio', 'sdsa', '2021-01-13');
+(1, 1077016524, 'Asistio', 'sdsa', '2021-01-13'),
+(2, 1743575876, 'Asistio', '', '2021-01-15'),
+(3, 1743575877, 'Retardo', 'Problemas de lluvia my fuertes', '2021-01-16');
 
 -- --------------------------------------------------------
 
@@ -122,7 +136,8 @@ INSERT INTO `events` (`id`, `title`, `color`, `start`, `end`) VALUES
 (1, 'Entregar tareas pendientes', '#0071c5', '2021-01-01 00:00:00', '2021-01-06 00:00:00'),
 (2, 'Eventos 2', '#40E0D0', '2017-08-02 00:00:00', '2017-08-03 00:00:00'),
 (3, 'Doble click para editar evento', '#008000', '2017-08-03 00:00:00', '2017-08-07 00:00:00'),
-(5, '', '#FF8C00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(5, '', '#FF8C00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'Enviar los informes ', '#FF0000', '2021-01-01 09:00:00', '2021-01-02 12:00:00');
 
 -- --------------------------------------------------------
 
@@ -144,10 +159,11 @@ CREATE TABLE `grupo` (
 --
 
 INSERT INTO `grupo` (`id`, `Nombre_Grupo`, `Turno`, `Id_Maestro`, `Ciclo`, `id_alumno`) VALUES
-(782383045, 'Grupo D', 'Vespertino', 833970920, '2019-2020', 1077016524),
-(892024469, 'Grupo D', 'Vespertino', 85, '2019-2020', 1743575876),
+(782383045, 'Grupo D', 'Vespertino', 85, '2019-2020', 1077016524),
+(892024469, 'Grupo D', 'Matutino', 85, '2019-2020', 1743575877),
 (1628892557, 'Grupo B', 'Vespertino', 1572967428, '2019-2020', 0),
-(1840064069, 'Grupo C', 'Vespertino', 803085176, '2019-2020', 0);
+(1840064069, 'Grupo C', 'Vespertino', 803085176, '2019-2020', 0),
+(1840064070, 'Grupo H', 'Matutino', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -191,7 +207,12 @@ INSERT INTO `inscrito` (`id`, `idalumno`, `idmateria`, `Cal1`, `Cal2`, `Cal3`) V
 (7, 1743575876, 2, 0, 0, 0),
 (8, 1743575876, 3, 0, 0, 0),
 (9, 1743575876, 4, 0, 0, 0),
-(10, 1743575876, 5, 0, 0, 0);
+(10, 1743575876, 5, 0, 0, 0),
+(11, 1743575877, 1, 0, 0, 0),
+(12, 1743575877, 2, 0, 0, 0),
+(13, 1743575877, 3, 0, 0, 0),
+(14, 1743575877, 4, 0, 0, 0),
+(15, 1743575877, 5, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -369,13 +390,13 @@ ALTER TABLE `actividades`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `No_Alumno` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1743575877;
+  MODIFY `No_Alumno` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1786126157;
 
 --
 -- AUTO_INCREMENT de la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora`
@@ -387,13 +408,13 @@ ALTER TABLE `bitacora`
 -- AUTO_INCREMENT de la tabla `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1840064070;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1840064072;
 
 --
 -- AUTO_INCREMENT de la tabla `inicio de sesión`
@@ -405,13 +426,13 @@ ALTER TABLE `inicio de sesión`
 -- AUTO_INCREMENT de la tabla `inscrito`
 --
 ALTER TABLE `inscrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `maestro`
 --
 ALTER TABLE `maestro`
-  MODIFY `Id_Maestro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `Id_Maestro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT de la tabla `materias`
