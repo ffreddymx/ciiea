@@ -1,4 +1,5 @@
 <?php
+include 'capa.php';
 include 'save_objeto.php';
 include("tablasUniver/cuerpo.php");
 
@@ -9,12 +10,7 @@ $view->tabla2 =Aprende::getProfesor();
 $view->mates =Aprende::getMaterias();
 
 
-$server = "localhost";
-$user = "root";
-$pass = "";
-$db = "ciiea";
-
-$conexion = new  mysqli($server,$user,$pass,$db);
+//$conexion = new  mysqli($server,$user,$pass,$db);
 
 ?>
 
@@ -163,7 +159,7 @@ $conexion = new  mysqli($server,$user,$pass,$db);
             echo "<table class='table table-sm table-hover'  >";//iniciamos la tabla
             tablacuerpo::DTablalink4("SELECT I.id,M.id as M, Nombre_Alumno,M.Materia,GA.Nombre_Grupo,GA.Ciclo,I.Cal1,I.Cal2,I.Cal3, FORMAT(((I.Cal1+I.Cal2+I.Cal3)/3),2) as Calificacion 
               FROM alumno as A 
-              inner join grupo as GA on GA.id_alumno = A.No_Alumno
+              inner join grupo as GA on GA.id = A.Id_Grupo
               inner join inscrito as I on A.No_Alumno=I.idalumno 
               inner join materias as M on M.id = I.idmateria
               where A.No_Alumno = $idalu ",1,$conexion);
