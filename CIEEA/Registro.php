@@ -1,16 +1,3 @@
-<?php
-$server = "localhost";
-$user = "root";
-$pass = "";
-$db = "ciiea";
-
-$conexion = new  mysqli($server,$user,$pass,$db);
-
-if($conexion->connect_errno){
-die ("La conexión ha fallado" . $conexion->connect_errno);
-}
-else{ echo "Conectado";}
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,32 +10,35 @@ else{ echo "Conectado";}
 
 </head>
 <body>
-<form action="" method="POST" class="formulario">
+<form action="nuevo_objeto.php" method="POST" class="formulario">
+
+    <input type="hidden" name="opc" value="66" id="opc">
+
 	<h1>Registrate</h1>
 	<div class="contenedor">
 
 	<div class="input-contenedor">
 		<i class="fas fa-user icon"></i>
-		<input type="text" placeholder="Nombre completo" name="Nombre">
+		<input type="text" placeholder="Nombre completo" name="nombre" required>
 
 	</div>	
 
 
 	<div class="input-contenedor">
 		<i class="fas fa-envelope icon"></i>
-		<input type="text" placeholder="Correo electronico" name="Correo"> 
+		<input type="text" placeholder="Correo electronico" name="correo" required> 
 
 	</div>	
 
 
 	<div class="input-contenedor">
 		<i class="fas fa-key icon"></i>
-		<input type="password" placeholder="Contraseña" name="Contraseña">
+		<input type="password" placeholder="Contraseña" name="pass" required>
 
 	</div>
 	<input type="submit" name="Registrar"value="Registrate" class="button">
 	<p>Al registrarte, aceptas nuestras Condiciones de uso y Politica de privacidad.</p>
-	<p>¿Ya tienes una cuenta?<a class="link" href="login.php">Iniciar Sesion</a></p>	
+	<p>¿Ya tienes una cuenta?<a class="link" href="index.php">Iniciar Sesion</a></p>	
 
 
 
@@ -57,24 +47,3 @@ else{ echo "Conectado";}
 </form>
 </body>
 </html>
-<?php
-                if(isset($_POST['Registrar']))
-                {
-			
-			   $Nombre =$_POST["Nombre"];
-               $Correo =$_POST["Correo"];
-			   $Password =$_POST["Password"];
-			   $Id_Maestro= rand(1,99);
-
-               $insertarDatos = "INSERT INTO maestro VALUES('$Id_Maestro','$Nombre','$Correo','$Password')";
-
-               $ejecutarInsertar = mysqli_query($conexion,$insertarDatos);
-               if(!$ejecutarInsertar){
-                   echo"Error";
-               }
-                }
-
-              
-                
-                
-                ?>

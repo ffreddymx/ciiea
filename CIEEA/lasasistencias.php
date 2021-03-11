@@ -51,7 +51,9 @@ $atras = $_SESSION["asistencia"];
      Agregar asistencia
    </a>
 
-
+  <a  class="btn btn-danger" href="asistencia_pdf.php?idalu=<?php echo $idalu  ?>" >
+     Imprimir
+   </a>
     </div>
 
 

@@ -9,9 +9,12 @@ $fila = $resultado->fetch_assoc();
      if(isset($fila)) {
            session_start();
 
+      $_SESSION["idprofe"]=$fila['Id_Maestro'];
       $_SESSION["user"]=$fila['Correo'];
       $_SESSION["nombre"]=$fila['Nombre'];
       $_SESSION["autentificado"] ="SI";
+      $_SESSION["tipo"]=$fila['Tipo'];
+
       fclose($file);
 
            //todo bien

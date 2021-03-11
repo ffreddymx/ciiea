@@ -14,7 +14,7 @@ class Aprende
 	public $actividad,$modulo;
 	public $texto1,$texto2,$correcta,$incorrecta;
 
-	public $apellido,$tutor,$direccion,$profesor,$grupo;
+	public $apellido,$tutor,$direccion,$profesor,$grupo,$materia;
 
  function __construct() {
 
@@ -23,12 +23,18 @@ class Aprende
 
 
 
+	 public function getTareas()
+		{
+		$obj_cliente=new sQuery();
+		$obj_cliente->executeQuery("SELECT *  FROM  tareas  ");
+		return $obj_cliente->fetchAll();
+		}	 
 
 
 	 public function getProfesor()
 		{
 		$obj_cliente=new sQuery();
-		$obj_cliente->executeQuery("SELECT *  FROM  profesor  ");
+		$obj_cliente->executeQuery("SELECT *  FROM  maestro  ");
 		return $obj_cliente->fetchAll();
 		}	 
 
@@ -76,28 +82,56 @@ class Aprende
 		return $obj_cliente->fetchAll();
 		}
 
-
-	public function insertAlumno($nombre,$grupo)
+	public function insertAlumno($nombre,$grupo,$curp)
 	{
 			$this->nombre = $nombre;
 			$this->grupo = $grupo;
+			$this->curp = $curp;
 
 			$obj_cliente=new sQuery();
-			$query="INSERT into alumno(Nombre_Alumno,Id_Grupo)
-			        values('$this->nombre','$this->grupo')";
+			$query="INSERT into alumno(Nombre_Alumno,Id_Grupo,CURP)
+			        values('$this->nombre','$this->grupo','$this->curp')";
 			$obj_cliente->executeQuery($query);
 			return $obj_cliente->getAffect();
 	}
 
 
-	public function insertGrupo($grupo,$turno)
+	public function insertEscuela($nombre,$domicilio,$cct,$zona,$municipio)
+	{
+			$this->nombre = $nombre;
+			$this->domicilio = $domicilio;
+			$this->cct = $cct;
+			$this->zona = $zona;
+			$this->municipio = $municipio;
+
+			$obj_cliente=new sQuery();
+			$query="INSERT into escuela(Nombre,Direccion,CCT,Zona,Municipio)
+			        values('$this->nombre','$this->domicilio','$this->cct','$this->zona','$this->municipio')";
+			$obj_cliente->executeQuery($query);
+			return $obj_cliente->getAffect();
+	}
+
+	public function insertActividades($nombre)
+	{
+			$this->nombre = $nombre;
+
+			$obj_cliente=new sQuery();
+			$query="INSERT into tareas(Tarea)
+			        values('$this->nombre')";
+			$obj_cliente->executeQuery($query);
+			return $obj_cliente->getAffect();
+	}
+
+	public function insertGrupo($grupo,$turno,$ciclo,$grado)
 	{
 			$this->grupo = $grupo;
 			$this->turno = $turno;
+			$this->ciclo = $ciclo;
+			$this->grado = $grado;
 
 			$obj_cliente=new sQuery();
-			$query="INSERT into grupo(Nombre_Grupo,Turno)
-			        values('$this->grupo','$this->turno')";
+			$query="INSERT into grupo(Nombre_Grupo,Turno,Ciclo,Grado)
+			        values('$this->grupo','$this->turno','$this->ciclo','$this->grado')";
 			$obj_cliente->executeQuery($query);
 			return $obj_cliente->getAffect();
 	}
@@ -197,17 +231,29 @@ class Aprende
 	}
 
 
-	public function insertActividad($alumno,$tinota,$nota,$actividad,$idma)
+	public function insertNMateria($materia)
+	{
+			$this->materia = $materia;
+
+			$obj_cliente=new sQuery();
+			$query="INSERT into materias(Materia) values('$this->materia')";
+			$obj_cliente->executeQuery($query);
+			return $obj_cliente->getAffect();
+	}
+
+
+	public function insertActividad($periodo,$alumno,$tinota,$nota,$actividad,$idma)
 	{
 			$this->alumno = $alumno;
 			$this->tinota = $tinota;
 			$this->nota = $nota;
 			$this->actividad = $actividad;
 			$this->idma = $idma;
+			$this->periodo = $periodo;
 
 			$obj_cliente=new sQuery();
-			$query="INSERT into actividades(idalumno,Tiponota,Nota,Actividad,idmateria)
-			        values('$this->alumno','$this->tinota','$this->nota','$this->actividad','$this->idma')";
+			$query="INSERT into actividades(Periodo,idalumno,Nota,Actividad,idmateria)
+			        values('$this->periodo','$this->alumno','$this->nota','$this->actividad','$this->idma')";
 			$obj_cliente->executeQuery($query);
 			return $obj_cliente->getAffect();
 	}
@@ -229,7 +275,21 @@ class Aprende
 		return $obj_cliente->getAffect(); 
 	}
 
+	public function delEscuela($id)	
+	{
+		$obj_cliente=new sQuery();
+		$query="DELETE FROM escuela WHERE id = '$id' ";
+		$obj_cliente->executeQuery($query); 
+		return $obj_cliente->getAffect(); 
+	}
 
+	public function delActividad($id)	
+	{
+		$obj_cliente=new sQuery();
+		$query="DELETE FROM tareas WHERE id = '$id' ";
+		$obj_cliente->executeQuery($query); 
+		return $obj_cliente->getAffect(); 
+	}
 
 	public function delProfesor($id)	
 	{
@@ -263,6 +323,16 @@ class Aprende
 		$obj_cliente->executeQuery($query); // ejecuta la consulta para  borrar el cliente
 		return $obj_cliente->getAffect(); // retorna todos los registros afectados
 	}
+
+
+	public function delActividades($id)	// elimina el embarque comlepleto con el folio
+	{
+		$obj_cliente=new sQuery();
+		$query="DELETE from actividades where id ='$id' ";
+		$obj_cliente->executeQuery($query); // ejecuta la consulta para  borrar el cliente
+		return $obj_cliente->getAffect(); // retorna todos los registros afectados
+	}
+
 
 	public function insertAsistencia($alumno,$fecha,$asistio,$justifi)
 	{

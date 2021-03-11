@@ -5,6 +5,7 @@ include("tablasUniver/cuerpo.php");
 
 $grupo = "SELECT * FROM grupo";
 
+$profesor =  $_SESSION["idprofe"];
 
 ?>
 <?php include 'header.php'?>
@@ -40,8 +41,26 @@ $grupo = "SELECT * FROM grupo";
   <div class="form-group mx-sm-3 mb-2">
     <input type="text" class="form-control" id="inputPassword2" placeholder="Nombre del Grupo" name="grupo">
 
+                    <select  id="inputState" class="form-control" name="ciclo">
+                            <option selected>Ciclo...</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                    </select>
+
+                    <select  id="inputState" class="form-control" name="grado">
+                            <option selected>Grado...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                    </select>
+
                     <select  id="inputState" class="form-control" name="turno">
-                            <option selected>Seleccionar...</option>
+                            <option selected>Turno...</option>
                             <option value="Matutino">Matutino</option>
                             <option value="Vespertino">Vespertino</option>
                             <option value="Nocturna">Nocturna</option>
@@ -51,6 +70,7 @@ $grupo = "SELECT * FROM grupo";
                       <button type="submit" class="btn btn-primary mb-2">Crear Grupo</button>
                     </form>               
                 </div>	
+
 
 
 
@@ -70,20 +90,50 @@ $grupo = "SELECT * FROM grupo";
 
     <?php
 $CantidadMostrar=7;
+
+if($_SESSION['tipo']==1){
+
                     // Validado de la variable GET
     $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
-  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo");
+  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Ciclo,Turno 
+                                      FROM grupo 
+                                      ");
   //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
   $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
   //Consulta SQL
-  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo
+  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Grado,Ciclo,Turno 
+                            FROM grupo 
                 LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
   $consulta=$conexion->query($consultavistas);
-
+ 
     echo "<table id='foo' class='table table-sm table-hover'  >";//iniciamos la tabla
     tablacuerpo::DTablalink1("$consultavistas ",1,$conexion);
     echo " </tbody></table>";
     require_once 'paginador.php';
+} 
+  else {
+    $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
+  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Grado,Ciclo,Turno 
+                                      FROM grupo 
+                                      where Id_Maestro = $profesor");
+  //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
+  $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
+  //Consulta SQL
+  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Ciclo,Turno 
+                            FROM grupo where Id_Maestro = $profesor
+                LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+  $consulta=$conexion->query($consultavistas);
+ 
+    echo "<table id='foo' class='table table-sm table-hover'  >";//iniciamos la tabla
+    tablacuerpo::DTablalink1("$consultavistas ",1,$conexion);
+    echo " </tbody></table>";
+    require_once 'paginador.php';
+}
+
+
+
+
+
   ?>
 
             </div>

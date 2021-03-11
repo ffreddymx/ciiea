@@ -2,6 +2,8 @@
 include 'capa.php';
 include("tablasUniver/cuerpo.php");
 
+$profesor =  $_SESSION["idprofe"];
+
 $grupo = "SELECT * FROM grupo";
 ?>
 
@@ -40,13 +42,17 @@ $grupo = "SELECT * FROM grupo";
 
     <?php
 $CantidadMostrar=7;
+
+
+if($_SESSION['tipo']==1){
+
                     // Validado de la variable GET
     $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
-  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo");
+  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo ");
   //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
   $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
   //Consulta SQL
-  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo
+  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo 
                 LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
   $consulta=$conexion->query($consultavistas);
 
@@ -54,6 +60,27 @@ $CantidadMostrar=7;
     tablacuerpo::DTablalink11("$consultavistas ",1,$conexion);
     echo " </tbody></table>";
     require_once 'paginador.php';
+}
+ else {
+                        // Validado de la variable GET
+    $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
+  $TotalReg       =$conexion->query("SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo ");
+  //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
+  $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
+  //Consulta SQL
+  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Turno FROM grupo 
+                LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+  $consulta=$conexion->query($consultavistas);
+
+    echo "<table id='foo' class='table table-sm table-hover'  >";//iniciamos la tabla
+    tablacuerpo::DTablalink11("$consultavistas ",1,$conexion);
+    echo " </tbody></table>";
+    require_once 'paginador.php';
+ }
+
+
+
+
   ?>
 
         </div>

@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -29,6 +29,8 @@
 
 	</div>
 	<input type="submit" value="Iniciar" class="button" href="index.php" name="iniciar">
+	       <h4 align="center"> <?php if($_GET['opc']==1) echo "Su Usuario ha sido registrado" ?> </h4>  
+
 	<p>Al registrarte, aceptas nuestras Condiciones de uso y Politica de privacidad.</p>
 	<p>¿No tienes una cuenta?<a class="link" href="Registro.php">Registrate</a></p>	
 

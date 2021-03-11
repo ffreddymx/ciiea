@@ -26,14 +26,14 @@ $view->grupo =Aprende::getGrupos();
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                           Profesores
+                           Escuela
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="inicio.php">Inicio</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Profesores
+                                <i class="fa fa-bar-chart-o"></i> Escuelas
                             </li>
                         </ol>
                     </div>
@@ -43,7 +43,7 @@ $view->grupo =Aprende::getGrupos();
 
    <div  align="right" style="margin-bottom: 0px; margin-top: 0px;">
       <a class="btn btn-primary mb-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-     Agregar profesor
+     Agregar escuela
    </a>
     </div>
 
@@ -54,33 +54,42 @@ $view->grupo =Aprende::getGrupos();
             <div class="col-sm-3">
                 <div class="form-group">
                 <form name="form" action="nuevo_objeto.php" method="post" >
-                  <input type="hidden" name="opc" value="6" id="opc">
-                  <input type="hidden" name="idprofesor"  id="idprofesor">
-                  <label >Profesor</label>
-                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required >
+                  <input type="hidden" name="opc" value="28" id="opc">
+                  <input type="hidden" name="idalumno"  id="idalumno">
+                  <label >Nombre</label>
+                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la escuela" required >
               </div>
             </div>
 
             <div class="col-sm-3">
-                <div class="form-group">
-                  <label >Email</label>
-                  <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo electrónico" required >
-              </div>
-            </div>
+            <label >Domicilio</label>
+                  <input type="text" class="form-control" id="domicilio" name="domicilio" placeholder="Domicilio" required >
+             </div> 
 
             <div class="col-sm-3">
-                <div class="form-group">
-                  <label >Contraseña</label>
-                  <input type="text" class="form-control" id="pass" name="pass" placeholder="Contraseña" required >
+            <label >C.C.T:</label>
+                  <input type="text" class="form-control" id="cct" name="cct" placeholder="C.C.T" required >
+
               </div>
-            </div>
+
+            <div class="col-sm-3">
+            <label >Zona</label>
+                  <input type="text" class="form-control" id="zona" name="zona" placeholder="Zona" required >
+
+              </div>
+
+            <div class="col-sm-3">
+            <label >Municipio</label>
+                  <input type="text" class="form-control" id="municipio" name="municipio" placeholder="Municipio" required >
+
+              </div>
 
 
       <div class="col-sm-3">
                                   <label ></label>
             <div class="form-group">
          <button type="submit" class="btn btn-primary mb-2">Guardar</button>
-                         <a  class="btn btn-danger" data-toggle="collapse" href="#collapseExample">Cancelar</a>
+                          <a  class="btn btn-danger" data-toggle="collapse" href="#collapseExample">Cancelar</a>
 
            </form>
        </div>
@@ -88,41 +97,42 @@ $view->grupo =Aprende::getGrupos();
 </div></div></div>
 
 
-
-<div class="collapse" id="BorrarProfe" style="margin-bottom: 10px; margin-top: 10px;">
+<div class="collapse" id="BorrarAlu" style="margin-bottom: 10px; margin-top: 10px;">
   <div class="card card-body">
   <form action="nuevo_objeto.php" method="post" >
-    <input type="hidden" name="opc" value="18">
+    <input type="hidden" name="opc" value="29">
 <div class="alert alert-danger" role="alert">
-  Confirme si desea eliminar el profesor ?
+  Confirme si desea eliminar la escuela ?
   <input type="hidden" name="ID" id="ID" class="form-control">
 </div>
-         <button id="BorrarProfe" type="submit" class="btn btn-danger">Eliminar profesor</button>
-         <a   data-toggle="collapse" href="#BorrarProfe" class="btn btn-success">Cancelar</a>
+         <button id="BorrarAlu" type="submit" class="btn btn-danger">Eliminar escuela</button>
+         <a   data-toggle="collapse" href="#BorrarAlu" class="btn btn-success">Cancelar</a>
   </form>
   </div>
 </div>
 
-
             
-                </div>	
+   </div>	
+
 
     <?php
+$CantidadMostrar=7;
+                    // Validado de la variable GET
+    $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
+  $TotalReg       =$conexion->query("SELECT * from escuela ");
+  //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
+  $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
+  //Consulta SQL
+  $consultavistas ="SELECT * from escuela
+                LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+  $consulta=$conexion->query($consultavistas);
 
-if($_SESSION['tipo']==1){
-        echo "<table class='table table-sm table-hover' >";//iniciamos la tabla
-        tablacuerpo::DTablaprofesor("SELECT Id_Maestro as id, Nombre, Correo, Contraseña FROM maestro  ",1,$conexion);
+    echo "<table id='foo' class='table table-sm table-hover'  >";//iniciamos la tabla
+    tablacuerpo::maestros("$consultavistas ",1,$conexion);
+    echo " </tbody></table>";
+    require_once 'paginador.php';
+  ?>
 
-} else {
-          echo "<table class='table table-sm table-hover' >";//iniciamos la tabla
-        tablacuerpo::DTablaprofesor("SELECT Id_Maestro as id, Nombre, Correo, Contraseña FROM maestro where Id_Maestro = $profesor ",1,$conexion);
-}
-
-
-
-         ?>
-        </tbody>
-    </table>
             </div>
            <!-- /.container-fluid -->
 </div>
@@ -136,9 +146,6 @@ if($_SESSION['tipo']==1){
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
-
-
  <script>
 
 
@@ -147,36 +154,27 @@ if($_SESSION['tipo']==1){
           $(document).on('click','a[data-role=myModAlumno]',function(){
 
                 var id  = $(this).data('id');
-                var nombre  = $('#'+id).children('td[data-target=Nombre]').text();
-                var correo  = $('#'+id).children('td[data-target=Correo]').text();
-                var pass  = $('#'+id).children('td[data-target=Contraseña]').text();
+                var nombre  = $('#'+id).children('td[data-target=Nombre_Alumno]').text();
+                var grupo  = $('#'+id).children('td[data-target=id_grupo]').text();
+                var curp  = $('#'+id).children('td[data-target=CURP]').text();
 
-                var opc = 7
+                var opc = 2
 
                 $('#opc').val(opc);
                 $('#nombre').val(nombre);
-                $('#correo').val(correo);
-                $('#pass').val(pass);
-                $('#idprofesor').val(id);
+                $('#idalumno').val(id);
+                $('#curp').val(curp);
 
+              $('#grupo > option[value="'+grupo+'"]').attr('selected', 'selected');
           });
 
 
-         $(document).on('click','a[data-role=BorrarProfe]',function(){
+         $(document).on('click','a[data-role=BorrarEscuela]',function(){
                 var id  = $(this).data('id');
                 $('#ID').val(id);
           });
 
-
-
-
     });
-
-
     </script>
-
-
-
-
 </body>
 </html>

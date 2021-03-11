@@ -43,7 +43,8 @@ $alumno = "SELECT * FROM alumno";
         tablacuerpo::DTablalink2("SELECT A.No_Alumno as id,Nombre_Grupo,Turno,Nombre_Alumno,Nombre as Profesor 
             FROM grupo as G 
             inner join alumno as A on A.Id_Grupo=G.id
-            inner join maestro as M on M.Id_Maestro=G.Id_Maestro where G.id=$grupo",1,$conexion);
+            inner join maestro as M on M.Id_Maestro=G.Id_Maestro where G.id=$grupo 
+            order by Nombre_Alumno",1,$conexion);
          ?>
         </tbody>
     </table>

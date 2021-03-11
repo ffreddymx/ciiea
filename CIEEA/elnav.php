@@ -27,10 +27,16 @@
                         <a href="inicio.php"><i class="fa fa-fw fa-dashboard"></i> Inicio</a>
                     </li>
                     <li >
+                        <a href="escuela.php"><i class="fa fa-fw fa-bar-chart-o"></i> Escuela</a>
+                    </li>
+                    <li >
+                        <a href="maestro.php"><i class="fa fa-fw fa-bar-chart-o"></i> Profesores</a>
+                    </li>
+                    <li >
                         <a href="alumnos.php"><i class="fa fa-fw fa-bar-chart-o"></i> Alumnos</a>
                     </li>
-                    <li>
-                        <a href="maestro.php"><i class="fa fa-fw fa-dashboard"></i>Maestro</a>
+                    <li >
+                        <a href="actividades.php"><i class="fa fa-fw fa-bar-chart-o"></i> Actividades</a>
                     </li>
                     <li >
                         <a href="Asistencias.php"><i class="fa fa-fw fa-bar-chart-o"></i> Asistencias</a>
@@ -41,9 +47,7 @@
                     <li>
                         <a href="calendario.php"><i class="fa fa-fw fa-edit"></i>Bitacora</a>
                     </li>
-                    <li>
-                        <a href="Reportes.html"><i class="fa fa-fw fa-desktop"></i>Reportes</a>
-                    </li>
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

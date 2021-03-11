@@ -146,10 +146,10 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
     $this->Cell(0,6,utf8_decode("BOLETA DE CALIFICACION"),0,1,'L');
     $this->SetFont('Arial','',7);
     $this->Ln(-2);
-    $this->Cell(0,6,utf8_decode("Calificación y Activiades"),0,1,'L');
+    $this->Cell(0,6,utf8_decode("Boleta de asistencias"),0,1,'L');
 
     $this->SetFont('Arial','',11);
-    $this->Cell(0,6,utf8_decode("Nombre de la escuela "),0,1,'L');
+    $this->Cell(0,6,utf8_decode("CIIEA"),0,1,'L');
     $this->Ln(-1);
     $this->Cell(0,6,utf8_decode("Direccion"),0,1,'L');
     $this->Ln(-1);
@@ -252,29 +252,24 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
 
    $alumno = $_GET["idalu"];
 
-    $strConsulta = " SELECT I.id,M.id as M, Nombre_Alumno,M.Materia,GA.Nombre_Grupo,GA.Ciclo,I.Cal1,I.Cal2,I.Cal3, FORMAT(((I.Cal1+I.Cal2+I.Cal3)/3),2) as Calificacion 
-              FROM alumno as A 
-              inner join grupo as GA on GA.id = A.Id_Grupo
-              inner join inscrito as I on A.No_Alumno=I.idalumno 
-              inner join materias as M on M.id = I.idmateria
-              where A.No_Alumno = '$alumno' ";
+    $strConsulta = " SELECT * from asistencia where idalumno = '$alumno'";
     $historial  =  mysqli_query($conexion,$strConsulta);
     //$fila =  mysqli_fetch_array($historial);
 
     $pdf->Ln(55);
 
-     $pdf->SetWidths(array(40,20,25,22,22,22,35));
+     $pdf->SetWidths(array(40,25,120));
      $pdf->SetFont('Arial','B',10,'L');
      $pdf->SetFillColor(1,113,185);//color blanco rgb
      $pdf->SetTextColor(255);
      $pdf->SetLineWidth(.3);
     for($i=0;$i<1;$i++)
             {
-                $pdf->Row(array('Materia','Grupo','Ciclo','Nota1','Nota2','Nota3',utf8_decode('Calificación')),'L');
+                $pdf->Row(array('Asistencia','Fecha',utf8_decode('Justificación')),'L');
             }
 
     //***************-------------------------encabezados de las tablas
-    $pdf->SetWidths(array(40,20,25,22,22,22,35));
+    $pdf->SetWidths(array(40,25,120));
     $pdf->SetFont('Arial','',10,'L');
   //  $pdf->SetFillColor(224,235,255);
     $pdf->SetFillColor(255,255,255);//color blanco rgb
@@ -283,47 +278,12 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
     $pdf->SetFont('Arial','',11);
 
         while ($fila = mysqli_fetch_array($historial)){
-        $pdf->Row(array(utf8_decode($fila['Materia']),($fila['Nombre_Grupo']),$fila['Ciclo'],$fila['Cal1'],$fila['Cal2'],$fila['Cal3'],number_format($fila['Calificacion'],2)),'L');
+        $pdf->Row(array($fila['Tipo'],$fila['Fecha'],utf8_decode($fila['Justificacion'])),'L');
         }
  
-       $pdf->Ln(-45);
+       $pdf->Ln(-25);
 
-//ACTIVIDADDES DEL CHAMACO
-  $pdf->Cell(187,100,'Actividades del Alumno',0,0,'L');
 
-       $strConsulta = " SELECT A.id,M.Materia,A.Actividad,A.Nota as Calificacion 
-                                        from actividades as A 
-                                        inner join materias as M on M.id = A.idmateria
-                                        where A.idalumno =  $alumno  ";
-    $historial  =  mysqli_query($conexion,$strConsulta);
-    //$fila =  mysqli_fetch_array($historial);
-
-    $pdf->Ln(55);
-
-     $pdf->SetWidths(array(40,100,25,22));
-     $pdf->SetFont('Arial','B',10,'L');
-     $pdf->SetFillColor(1,113,185);//color blanco rgb
-     $pdf->SetTextColor(255);
-     $pdf->SetLineWidth(.3);
-    for($i=0;$i<1;$i++)
-            {
-                $pdf->Row(array('Materia','Actividad',utf8_decode('Calificación')),'L');
-            }
-
-    //***************-------------------------encabezados de las tablas
-    $pdf->SetWidths(array(40,100,25,22));
-    $pdf->SetFont('Arial','',10,'L');
-  //  $pdf->SetFillColor(224,235,255);
-    $pdf->SetFillColor(255,255,255);//color blanco rgb
-    $pdf->SetTextColor(0);
-
-    $pdf->SetFont('Arial','',11);
-
-        while ($fila = mysqli_fetch_array($historial)){
-        $pdf->Row(array(utf8_decode($fila['Materia']),utf8_decode($fila['Actividad']),$fila['Calificacion']),'L');
-        }
- 
-       $pdf->Ln(-15);
 
 //////////////////////////////////////////////////
 //incidencias del chamaco

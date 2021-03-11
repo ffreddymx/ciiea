@@ -3,12 +3,13 @@ include 'capa.php';
 include("tablasUniver/cuerpo.php");
 include 'save_objeto.php';
 
-$profesor =  $_SESSION["idprofe"];
+$idgrupo = $_GET['id'];
 
 $grupo = "SELECT * FROM grupo";
 
 $view = new stdClass();
 $view->grupo =Aprende::getGrupos();
+$view->profesor =Aprende::getProfesor();
 
 ?>
 <?php include 'header.php'?>
@@ -25,15 +26,22 @@ $view->grupo =Aprende::getGrupos();
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">
-                           Alumnos
-                        </h1>
+                        <h2 >
+                          Grupo : <?php echo $_GET['g'] ?> 
+                        </h2>
+                        <h2 >
+                          Turno: <?php echo $_GET['t'] ?>
+                        </h2>
+                        <h2 >
+                          Ciclo: <?php echo $_GET['c'] ?>
+                        </h2>
+
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="inicio.php">Inicio</a>
+                                <i class="fa fa-dashboard"></i>  <a href="Asistencias.php">Regresar</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Lista de alumnos
+                                <i class="fa fa-bar-chart-o"></i> Profesor a cargo del grupo
                             </li>
                         </ol>
                     </div>
@@ -43,7 +51,7 @@ $view->grupo =Aprende::getGrupos();
 
    <div  align="right" style="margin-bottom: 0px; margin-top: 0px;">
       <a class="btn btn-primary mb-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-     Agregar alumno
+     Agregar profesor al grupo
    </a>
     </div>
 
@@ -54,29 +62,27 @@ $view->grupo =Aprende::getGrupos();
             <div class="col-sm-3">
                 <div class="form-group">
                 <form name="form" action="nuevo_objeto.php" method="post" >
-                  <input type="hidden" name="opc" value="1" id="opc">
-                  <input type="hidden" name="idalumno"  id="idalumno">
-                  <label >Alumno</label>
-                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required >
+                  <input type="hidden" name="opc" value="27" id="opc">
+                  <input type="hidden" name="idgrupo"  id="idgrupo" value="<?php echo $idgrupo; ?>">
+                  <input type="hidden" name="g" value="<?php echo $_GET['g'] ?>" >
+                  <input type="hidden" name="t" value="<?php echo $_GET['t'] ?>" >
+                  <input type="hidden" name="c" value="<?php echo $_GET['c'] ?>" >
+
+
+
+            <div >
+              <label >Profesor</label>
+              <select class="form-control"  name="profesor" id="profesor">
+            <option selected>Seleccione el profesor</option>
+                 <?php    foreach ($view->profesor as $value) { ?>
+    <option value="<?php echo $value['Id_Maestro'] ?>"><?php echo $value['Nombre']." ".$value['Correo'] ?></option>
+                  <?php } ?>  
+          </select>
+              </div>
+
+
               </div>
             </div>
-
-            <div class="col-sm-3">
-            <label >C.U.R.P.</label>
-                  <input type="text" class="form-control" id="curp" name="curp" placeholder="C.U.R.P." required >
-             </div> 
-
-            <div class="col-sm-3">
-                                  <label >Grupos</label>
-
-              <select class="form-control"  name="grupo" id="grupo">
-                   <option selected>Grupos</option>
-                 <?php    foreach ($view->grupo as $value) { ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value['Nombre_Grupo']." ".$value['Turno'] ?></option>
-                  <?php } ?>  
-                      </select>
-              </div>
-
 
       <div class="col-sm-3">
                                   <label ></label>
@@ -110,18 +116,22 @@ $view->grupo =Aprende::getGrupos();
 
     <?php
 $CantidadMostrar=7;
+
                     // Validado de la variable GET
     $compag         =(int)(!isset($_GET['pag'])) ? 1 : $_GET['pag']; 
-  $TotalReg       =$conexion->query("SELECT A.No_Alumno as id, G.id as id_grupo, A.Nombre_Alumno,A.CURP,G.Nombre_Grupo,G.Turno FROM alumno as A inner join grupo as G on A.Id_Grupo=G.id where G.Id_Maestro = $profesor");
+  $TotalReg       =$conexion->query("SELECT M.Id_Maestro as id, M.Nombre,M.Correo  FROM maestro as M 
+     inner join grupo as G on G.Id_Maestro=M.Id_Maestro where G.id = '$idgrupo'  ");
   //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
   $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
   //Consulta SQL
-  $consultavistas ="SELECT A.No_Alumno as id, G.id as id_grupo, A.Nombre_Alumno,A.CURP,G.Nombre_Grupo,G.Turno FROM alumno as A inner join grupo as G on A.Id_Grupo=G.id where G.Id_Maestro = $profesor
-                LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
+  $consultavistas ="SELECT M.Id_Maestro as id, M.Nombre,M.Correo  FROM maestro as M 
+     inner join grupo as G on G.Id_Maestro=M.Id_Maestro where G.id = '$idgrupo'
+
+     LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
   $consulta=$conexion->query($consultavistas);
 
     echo "<table id='foo' class='table table-sm table-hover'  >";//iniciamos la tabla
-    tablacuerpo::DTablaalumno("$consultavistas ",1,$conexion);
+    tablacuerpo::ProfeGrupo("$consultavistas ",1,$conexion);
     echo " </tbody></table>";
     require_once 'paginador.php';
   ?>
