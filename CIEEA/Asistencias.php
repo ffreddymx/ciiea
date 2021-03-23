@@ -36,6 +36,10 @@ $profesor =  $_SESSION["idprofe"];
                     </div>
                 </div>
 
+
+
+<?php  if($_SESSION["tipo"]==1) {  ?>
+
 <form class="form-inline" action="nuevo_objeto.php" method="post">
 <input type="hidden" name="opc" value="16">
   <div class="form-group mx-sm-3 mb-2">
@@ -71,6 +75,7 @@ $profesor =  $_SESSION["idprofe"];
                     </form>               
                 </div>	
 
+<?php  }  ?>
 
 
 
@@ -119,7 +124,7 @@ if($_SESSION['tipo']==1){
   //Se divide la cantidad de registro de la BD con la cantidad a mostrar 
   $TotalRegistro  =ceil($TotalReg->num_rows/$CantidadMostrar);
   //Consulta SQL
-  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Ciclo,Turno 
+  $consultavistas ="SELECT id, Nombre_Grupo as Grupo,Grado,Ciclo,Turno 
                             FROM grupo where Id_Maestro = $profesor
                 LIMIT ".(($compag-1)*$CantidadMostrar)." , ".$CantidadMostrar;
   $consulta=$conexion->query($consultavistas);

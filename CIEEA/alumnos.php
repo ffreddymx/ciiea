@@ -57,13 +57,13 @@ $view->grupo =Aprende::getGrupos();
                   <input type="hidden" name="opc" value="1" id="opc">
                   <input type="hidden" name="idalumno"  id="idalumno">
                   <label >Alumno</label>
-                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required >
+                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required pattern="[a-zA-Z ]{2,254}">
               </div>
             </div>
 
             <div class="col-sm-3">
             <label >C.U.R.P.</label>
-                  <input type="text" class="form-control" id="curp" name="curp" placeholder="C.U.R.P." required >
+                  <input type="text" class="form-control" id="curp" name="curp" maxlength="18" placeholder="C.U.R.P." required >
              </div> 
 
             <div class="col-sm-3">

@@ -260,6 +260,17 @@ header('Location: calendario.php');
 		header("Location:escuela.php");
 	break;
 
+	case '30':#Eliminar el alumno
+	$id = $_POST["ID"];
+	$idalu = $_POST["alumno"];
+	$fecha = $_POST["fecha"];
+	$asistio = $_POST["asistio"];
+	$justifi = $_POST["justifi"];
+	
+   $result  = mysqli_query($conexion, "UPDATE asistencia SET Tipo='$asistio',Justificacion='$justifi',Fecha='$fecha' WHERE id='$id' ");
+   mysqli_close($conexion);
+   header("Location:lasasistencias.php?gr=$idalu");
+	break;
 
 	default:
 		# code...

@@ -64,9 +64,13 @@ class tablacuerpo{
                                     $query =  mysqli_query($conexion,$a); //parte1
                                       echo "<thead class='thead-dark'> <tr>";
 
+                                        echo "<th scope='col' style='display:none;' >"; 
+                                         print_r(mysqli_fetch_field_direct($query,0)->name); 
+                                         echo"</th>";
 
 
-                                      for($i=0;$i<mysqli_num_fields($query);$i++) 
+
+                                      for($i=1;$i<mysqli_num_fields($query);$i++) 
                                       {
                                          echo "<th scope='col'>"; 
                                          print_r(mysqli_fetch_field_direct($query,$i)->name); 
@@ -74,13 +78,19 @@ class tablacuerpo{
                                        }
                                          echo "<th width='20px'>Editar</th>";
                                          echo "<th width='20px'>Eliminar</th></tr></thead><tbody>";
+                                        
+
+
                                          while ($row=mysqli_fetch_assoc($query)) //finparte1
                                        {  
-           echo "<tr id=".$row['id'].">"; //hacen las filas
+                                        
+                                         echo "<tr id=".$row['id'].">"; //hacen las filas
+                                    
+                                        echo "<td style='display:none;' data-target='"; 
+                                        print_r(mysqli_fetch_field_direct($query, 0)->name);
+                                        echo "' >";
 
-
-
-             for($i=0;$i<mysqli_num_fields($query);$i++) //parte2
+                                    for($i=1;$i<mysqli_num_fields($query);$i++) //parte2
                                       {
                                         
                                         echo "<td data-target='"; 
@@ -110,7 +120,11 @@ class tablacuerpo{
                                     $query =  mysqli_query($conexion,$a); //parte1
                                       echo "<thead class='thead-dark'> <tr>";
 
-                                      for($i=0;$i<mysqli_num_fields($query);$i++) 
+                                        echo "<th scope='col' style='display:none;' >"; 
+                                         print_r(mysqli_fetch_field_direct($query,0)->name); 
+                                         echo"</th>";
+
+                                      for($i=1;$i<mysqli_num_fields($query);$i++) 
                                       {
                                          echo "<th scope='col'>"; 
                                          print_r(mysqli_fetch_field_direct($query,$i)->name); 
@@ -121,9 +135,11 @@ class tablacuerpo{
                                          while ($row=mysqli_fetch_assoc($query)) //finparte1
                                        {  
            echo "<tr id=".$row['id'].">"; //hacen las filas
+                                       echo "<td style='display:none;' data-target='"; 
+                                        print_r(mysqli_fetch_field_direct($query, 0)->name);
+                                        echo "' >";
 
-
-             for($i=0;$i<mysqli_num_fields($query);$i++) //parte2
+             for($i=1;$i<mysqli_num_fields($query);$i++) //parte2
                                       {
                                         
                                         echo "<td data-target='"; 
@@ -155,7 +171,7 @@ class tablacuerpo{
 
 
 
-                                      for($i=0;$i<mysqli_num_fields($query);$i++) 
+                                      for($i=1;$i<mysqli_num_fields($query);$i++) 
                                       {
                                          echo "<th scope='col'>"; 
                                          print_r(mysqli_fetch_field_direct($query,$i)->name); 
@@ -168,7 +184,7 @@ class tablacuerpo{
            echo "<tr id=".$row['id'].">"; //hacen las filas
 
 
-             for($i=0;$i<mysqli_num_fields($query);$i++) //parte2
+             for($i=1;$i<mysqli_num_fields($query);$i++) //parte2
                                       {
                                         
                                         echo "<td data-target='"; 
@@ -623,7 +639,7 @@ public static function DTablalink3($a,$link,$conexion)
                                          print_r(mysqli_fetch_field_direct($query,$i)->name); 
                                          echo"</th>";
                                        }
-                                         echo "<th >Eliminar</th></tr></thead><tbody>";
+                                         echo "<th >Editar</th><th >Eliminar</th></tr></thead><tbody>";
                                          while ($row=mysqli_fetch_assoc($query)) //finparte1
                                        {  
            echo "<tr id=".$row['id'].">"; //hacen las filas
@@ -653,8 +669,9 @@ public static function DTablalink3($a,$link,$conexion)
           ?>
 
 
-<td ><a data-role="BorrarAsis"  aria-controls="BorrarAsis" data-toggle="collapse" href="#BorrarAsis" data-id="<?php echo $row["id"] ?>"><i class="fa fa-trash "></i></a></td>
+<td ><a data-role="collapseExample"  aria-controls="collapseExample" data-toggle="collapse" href="#collapseExample" data-id="<?php echo $row["id"] ?>"><i class="fa fa-edit"></i></a></td>
 
+<td ><a data-role="BorrarAsis"  aria-controls="BorrarAsis" data-toggle="collapse" href="#BorrarAsis" data-id="<?php echo $row["id"] ?>"><i class="fa fa-trash "></i></a></td>
 
                  <?php       }
             echo "</tr>";

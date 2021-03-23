@@ -37,7 +37,7 @@ function Row($data,$alinea)
         if($i<=0)// verifico menor que 5 para alinear las columnas
          $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
         else // verifico si es encabezado para alinearlo a la izquierda
-        $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'R';
+        $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
         //Save the current position
         $x=$this->GetX();
         $y=$this->GetY();
@@ -121,17 +121,7 @@ function Header()
 
 $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
                   mysqli_set_charset($conexion,'utf8');
-//$conexion = mysql_connect("localhost","root","root");
-  //            mysql_select_db("Pichucalco",$conexion);
-         //     mysql_set_charset('utf8');
 
-//mysql_set_charset("utf8", $conexion);
-
-#$this->Image('img/lxogo.jpg',120,7,30,30);
-
- /*
-    $this->Image('footer.png' ,1,180,276,35);
-   */
 
    $alumno = $_GET["idalu"];
 
@@ -142,24 +132,30 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
    $fil =  mysqli_fetch_array($cli);
 //$mysqli -> set_charset("utf8");
 
+   $clienteee = "SELECT *
+               from escuela ";
+   $cliii =  mysqli_query($conexion,$clienteee);
+   $filx =  mysqli_fetch_array($cliii);
+
+
     $this->SetFont('Arial','B',12);
-    $this->Cell(0,6,utf8_decode("BOLETA DE CALIFICACION"),0,1,'L');
+    $this->Cell(0,6,utf8_decode("REGISTRO DE ACTIVIDADES"),0,1,'L');
     $this->SetFont('Arial','',7);
     $this->Ln(-2);
     $this->Cell(0,6,utf8_decode("Calificación y Activiades"),0,1,'L');
 
     $this->SetFont('Arial','',11);
-    $this->Cell(0,6,utf8_decode("Nombre de la escuela "),0,1,'L');
+    $this->Cell(0,6,utf8_decode("Nombre de la escuela : ".$filx['Nombre']),0,1,'L');
     $this->Ln(-1);
-    $this->Cell(0,6,utf8_decode("Direccion"),0,1,'L');
+    $this->Cell(0,6,utf8_decode("Direccion : ".$filx['Direccion']),0,1,'L');
     $this->Ln(-1);
-    $this->Cell(0,6,utf8_decode("Ciudad"),0,1,'L');
+    $this->Cell(0,6,utf8_decode("Ciudad : ".$filx['Municipio']),0,1,'L');
     $this->Ln(-1);
-    $this->Cell(0,6,utf8_decode("Clave SEP: "),0,1,'L');
+    $this->Cell(0,6,utf8_decode("Clave SEP : ".$filx['CCT']),0,1,'L');
     $this->Ln(2);
 
     $this->SetFont('Arial','B',11);
-    $this->Cell(0,6,utf8_decode("DATOS DEL ALUMNO"),0,1,'L');
+    $this->Cell(0,6,utf8_decode("ALUMNO :"),0,1,'L');
     $this->Ln(-1);
     $this->Cell(0,6,utf8_decode($fil['Nombre_Alumno']),0,1,'L');
     $this->Ln(-1);
@@ -252,44 +248,14 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
 
    $alumno = $_GET["idalu"];
 
-    $strConsulta = " SELECT I.id,M.id as M, Nombre_Alumno,M.Materia,GA.Nombre_Grupo,GA.Ciclo,I.Cal1,I.Cal2,I.Cal3, FORMAT(((I.Cal1+I.Cal2+I.Cal3)/3),2) as Calificacion 
-              FROM alumno as A 
-              inner join grupo as GA on GA.id = A.Id_Grupo
-              inner join inscrito as I on A.No_Alumno=I.idalumno 
-              inner join materias as M on M.id = I.idmateria
-              where A.No_Alumno = '$alumno' ";
-    $historial  =  mysqli_query($conexion,$strConsulta);
-    //$fila =  mysqli_fetch_array($historial);
 
-    $pdf->Ln(55);
 
-     $pdf->SetWidths(array(40,20,25,22,22,22,35));
-     $pdf->SetFont('Arial','B',10,'L');
-     $pdf->SetFillColor(1,113,185);//color blanco rgb
-     $pdf->SetTextColor(255);
-     $pdf->SetLineWidth(.3);
-    for($i=0;$i<1;$i++)
-            {
-                $pdf->Row(array('Materia','Grupo','Ciclo','Nota1','Nota2','Nota3',utf8_decode('Calificación')),'L');
-            }
+    $pdf->Ln(2);
 
-    //***************-------------------------encabezados de las tablas
-    $pdf->SetWidths(array(40,20,25,22,22,22,35));
-    $pdf->SetFont('Arial','',10,'L');
-  //  $pdf->SetFillColor(224,235,255);
-    $pdf->SetFillColor(255,255,255);//color blanco rgb
-    $pdf->SetTextColor(0);
 
-    $pdf->SetFont('Arial','',11);
-
-        while ($fila = mysqli_fetch_array($historial)){
-        $pdf->Row(array(utf8_decode($fila['Materia']),($fila['Nombre_Grupo']),$fila['Ciclo'],$fila['Cal1'],$fila['Cal2'],$fila['Cal3'],number_format($fila['Calificacion'],2)),'L');
-        }
- 
-       $pdf->Ln(-45);
 
 //ACTIVIDADDES DEL CHAMACO
-  $pdf->Cell(187,100,'Actividades del Alumno',0,0,'L');
+  $pdf->Cell(187,100,'ACTIVIDADES DEL ALUMNO',0,0,'C');
 
        $strConsulta = " SELECT A.id,M.Materia,A.Actividad,A.Nota as Calificacion 
                                         from actividades as A 
@@ -300,7 +266,7 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
 
     $pdf->Ln(55);
 
-     $pdf->SetWidths(array(40,100,25,22));
+     $pdf->SetWidths(array(40,120,25,22));
      $pdf->SetFont('Arial','B',10,'L');
      $pdf->SetFillColor(1,113,185);//color blanco rgb
      $pdf->SetTextColor(255);
@@ -311,7 +277,7 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
             }
 
     //***************-------------------------encabezados de las tablas
-    $pdf->SetWidths(array(40,100,25,22));
+    $pdf->SetWidths(array(40,120,25,22));
     $pdf->SetFont('Arial','',10,'L');
   //  $pdf->SetFillColor(224,235,255);
     $pdf->SetFillColor(255,255,255);//color blanco rgb

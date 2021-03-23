@@ -250,7 +250,7 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
 
     $pdf->Ln(55);
 
-     $pdf->SetWidths(array(12,40,150,12,12,12,15));
+     $pdf->SetWidths(array(12,60,130,12,12,12,15));
      $pdf->SetFont('Arial','B',10,'L');
      $pdf->SetFillColor(1,113,185);//color blanco rgb
      $pdf->SetTextColor(255);
@@ -261,7 +261,7 @@ $conexion = mysqli_connect('localhost' , 'root' ,'' ,'ciiea');
             }
 
     //***************-------------------------encabezados de las tablas
-    $pdf->SetWidths(array(12,40,150,12,12,12,15));
+    $pdf->SetWidths(array(12,60,130,12,12,12,15));
     $pdf->SetFont('Arial','',10,'L');
     $pdf->SetFillColor(255,255,255);//color blanco rgb
     $pdf->SetTextColor(0);

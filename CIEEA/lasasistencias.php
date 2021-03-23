@@ -64,6 +64,7 @@ $atras = $_SESSION["asistencia"];
 
               <form name="form" action="nuevo_objeto.php" method="post" >
                  <input type="hidden" name="opc" id="opc" value="13">
+                 <input type="hidden" name="ID" id="ID">
                  <input type="hidden"  name="alumno" id="alumno" value="<?php echo $idalu ?>" >
 
       <div class="col-sm-3">
@@ -216,29 +217,23 @@ $atras = $_SESSION["asistencia"];
       $(document).ready(function(){
 
 
-          $(document).on('click','a[data-role=updateAlumno]',function(){
+          $(document).on('click','a[data-role=collapseExample]',function(){
 
                 var id  = $(this).data('id');
-                var nombre  = $('#'+id).children('td[data-target=Nombre]').text();
-                var apellido  = $('#'+id).children('td[data-target=Apellido]').text();
-                var tutor  = $('#'+id).children('td[data-target=Tutor]').text();
-                var grupo  = $('#'+id).children('td[data-target=Grupo]').text();
-                var direccion  = $('#'+id).children('td[data-target=Direccion]').text();
-                var idprof  = $('#'+id).children('td[data-target=idprof]').text();
-                var opc = 2;
+                var justi  = $('#'+id).children('td[data-target=Justificacion]').text();
+                var tipo  = $('#'+id).children('td[data-target=Tipo]').text();
+                var fecha  = $('#'+id).children('td[data-target=Fecha]').text();
+
+                var opc = 30;
 
                 $('#ID').val(id);
-                $('#nombre').val(nombre);
-                $('#apellido').val(apellido);
-                $('#tutor').val(tutor);                
-                $('#grupo').val(grupo);                
-                $('#direccion').val(direccion);                
-                $('#idprof').val(idprof);
+                $('#justifi').val(justi);
+                $('#fecha').val(fecha);
                 $('#opc').val(opc);
+                $('#ID').val(id);
 
 
-                $('#profesor > option[value="'+idprof+'"]').attr('selected', 'selected');
-                $('#grupo > option[value="'+grupo+'"]').attr('selected', 'selected');
+                $('#asistio > option[value="'+tipo+'"]').attr('selected', 'selected');
           });
 
 

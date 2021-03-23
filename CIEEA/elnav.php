@@ -47,7 +47,9 @@
                     <li>
                         <a href="calendario.php"><i class="fa fa-fw fa-edit"></i>Bitacora</a>
                     </li>
-
+                    <li>
+                        <a href="creditos.php"><i class="fa fa-fw fa-table"></i> Créditos</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
